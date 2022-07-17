@@ -36,6 +36,7 @@ const newBook = (request, h) => {
   }
 
   const newBook = {
+    id,
     name,
     year,
     author,
@@ -73,4 +74,43 @@ const newBook = (request, h) => {
   }
 }
 
-module.exports = { newBook }
+const getAllBooks = (request, h) => {
+  const listBooks = books.map(book => {
+    return { id: book.id, name: book.name, publisher: book.publisher }
+  })
+
+  const response = h.response({
+    status: 'success',
+    data: {
+      books: listBooks
+    }
+  })
+  response.code(200)
+  return response
+}
+
+const getBookById = (request, h) => {
+  const { bookId } = request.params
+
+  const book = books.filter(book => book.id === bookId)[0]
+
+  if (!book) {
+    const response = h.response({
+      status: 'fail',
+      message: 'Buku tidak ditemukan'
+    })
+    response.code(404)
+    return response
+  }
+
+  const response = h.response({
+    status: 'success',
+    data: {
+      book
+    }
+  })
+  response.code(200)
+  return response
+}
+
+module.exports = { newBook, getAllBooks, getBookById }
