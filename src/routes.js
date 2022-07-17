@@ -1,10 +1,10 @@
+const { newBook } = require('./bookshelf/handler')
+
 const routes = [
   {
     method: 'GET',
     path: '/',
-    handler: (request, h) => {
-      return 'Hello world'
-    }
+    handler: newBook
   }
 ]
 
